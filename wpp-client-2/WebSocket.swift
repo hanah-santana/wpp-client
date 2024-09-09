@@ -1,8 +1,8 @@
 //
 //  WebSocket.swift
-//  wpp-client-2
+//  wpp-client
 //
-//  Created by Luiz Sena on 05/09/24.
+//  Created by Hanah Santana on 05/09/24.
 //
 
 import Foundation
@@ -11,9 +11,7 @@ class WebSocket: ObservableObject {
     private let serverIp = "localhost:8080"
     private var webSocketTask: URLSessionWebSocketTask?
     private var httpTask: URLSessionDataTask?
-    @Published var messages: [Message] = [] {didSet {
-        print(messages)
-    }}
+    @Published var messages: [Message] = []
     @Published var id: String = ""
 
 

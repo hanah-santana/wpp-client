@@ -1,8 +1,8 @@
 //
 //  ContactList.swift
-//  wpp-client-2
+//  wpp-client
 //
-//  Created by Luiz Sena on 05/09/24.
+//  Created by Hanah Santana on 05/09/24.
 //
 
 import SwiftUI
@@ -19,8 +19,10 @@ struct ContactList: View {
                 allDisabled ? wsClient.connect() : wsClient.disconnect()
                 allDisabled.toggle()
             } label: {
-                Text(allDisabled ? "Ficar OFF" : "Ficar ON")
+                Text(allDisabled ? "Ficar ON" : "Ficar OFF")
+                    .foregroundStyle(allDisabled ? .gray : .red)
             }
+
 
             ScrollView{
                 VStack(alignment: .center) {
@@ -33,7 +35,24 @@ struct ContactList: View {
                                     self.wsClient.sendData(DataWrapper(contentType: .message, content: message.toData()))
                                 })
                             } label: {
-                                Text(contact.name)
+                                HStack{
+                                    Text("🙎")
+                                    Text(contact.name)
+                                }
+                                .foregroundStyle(.white)
+                                .padding(10)
+                                .frame(maxWidth: .infinity)
+                                .background(.gray.opacity(0.65))
+                                .contextMenu {
+                                    Button {
+                                        self.contactList.removeAll {
+                                            $0.id == contact.id
+                                        }
+                                    } label: {
+                                        Text("Remover")
+                                    }
+
+                                }
                             }
                         }
                     }
@@ -45,8 +64,11 @@ struct ContactList: View {
             }, label: {
                 Text("➕ Adicionar Contato")
             })
+            .buttonStyle(.borderedProminent)
 
         }
+        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+        .background(Color(.orange).opacity(0.85))
         .navigationBarBackButtonHidden(true)
         .sheet(isPresented: $isSheetPresented) {
            SheetView(contactList: $contactList)
